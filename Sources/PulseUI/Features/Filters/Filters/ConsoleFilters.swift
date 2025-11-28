@@ -6,24 +6,26 @@ import Foundation
 import Pulse
 
 /// Filter the logs displayed in the console.
-struct ConsoleFilters: Hashable {
-    var shared = Shared()
-    var messages = Messages()
-    var network = Network()
+public struct ConsoleFilters: Hashable {
+    public init() {}
+    
+    public var shared = Shared()
+    public var messages = Messages()
+    public var network = Network()
 
-    struct Shared: Hashable {
-        var sessions = Sessions()
-        var dates = Dates()
+    public struct Shared: Hashable {
+        public var sessions = Sessions()
+        public var dates = Dates()
     }
 
-    struct Messages: Hashable {
-        var logLevels = LogLevels()
-        var labels = Labels()
+    public struct Messages: Hashable {
+        public var logLevels = LogLevels()
+        public var labels = Labels()
     }
 
-    struct Network: Hashable {
-        var host = Host()
-        var url = URL()
+    public struct Network: Hashable {
+        public var host = Host()
+        public var url = URL()
     }
 }
 
@@ -32,40 +34,40 @@ protocol ConsoleFilterProtocol: Hashable {
 }
 
 extension ConsoleFilters {
-    struct Sessions: Hashable, ConsoleFilterProtocol {
-        var selection: Set<UUID> = []
+    public struct Sessions: Hashable, ConsoleFilterProtocol {
+        public var selection: Set<UUID> = []
     }
 
-    struct Dates: Hashable, ConsoleFilterProtocol {
-        var startDate: Date?
-        var endDate: Date?
+    public struct Dates: Hashable, ConsoleFilterProtocol {
+        public var startDate: Date?
+        public var endDate: Date?
 
-        static var today: Dates {
+        public static var today: Dates {
             Dates(startDate: Calendar.current.startOfDay(for: Date()))
         }
 
-        static var recent: Dates {
+        public static var recent: Dates {
             Dates(startDate: Date().addingTimeInterval(-1200))
         }
     }
 
-    struct LogLevels: ConsoleFilterProtocol {
-        var levels: Set<LoggerStore.Level> = Set(LoggerStore.Level.allCases)
+    public struct LogLevels: ConsoleFilterProtocol {
+        public var levels: Set<LoggerStore.Level> = Set(LoggerStore.Level.allCases)
             .subtracting([LoggerStore.Level.trace])
     }
 
-    struct Labels: ConsoleFilterProtocol {
-        var hidden: Set<String> = []
-        var focused: String?
+    public struct Labels: ConsoleFilterProtocol {
+        public var hidden: Set<String> = []
+        public var focused: String?
     }
 
-    struct Host: ConsoleFilterProtocol {
-        var hidden: Set<String> = []
-        var focused: String?
+    public struct Host: ConsoleFilterProtocol {
+        public var hidden: Set<String> = []
+        public var focused: String?
     }
 
-    struct URL: ConsoleFilterProtocol {
-        var hidden: Set<String> = []
-        var focused: String?
+    public struct URL: ConsoleFilterProtocol {
+        public var hidden: Set<String> = []
+        public var focused: String?
     }
 }
