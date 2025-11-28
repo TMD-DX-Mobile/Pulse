@@ -37,16 +37,16 @@ final class ConsoleEnvironment: ObservableObject {
 
     private var cancellables: [AnyCancellable] = []
 
-    init(store: LoggerStore, mode: ConsoleMode = .all) {
+    init(store: LoggerStore, configuration: ConsoleConfiguration = .init()) {
         self.store = store
-        switch mode {
+        switch configuration.mode {
         case .all: self.title = "Console"
         case .logs: self.title = "Logs"
         case .network: self.title = "Network"
         }
-        self.initialMode = mode
+        self.initialMode = configuration.mode
 
-        switch mode {
+        switch configuration.mode {
         case .all: self.mode = UserSettings.shared.mode
         case .logs: self.mode = .logs
         case .network: self.mode = .network
@@ -54,6 +54,7 @@ final class ConsoleEnvironment: ObservableObject {
 
         func makeDefaultOptions() -> ConsoleDataSource.PredicateOptions {
             var options = ConsoleDataSource.PredicateOptions()
+            options.filters = configuration.filters
             options.filters.shared.sessions.selection = [store.session.id]
             return options
         }
